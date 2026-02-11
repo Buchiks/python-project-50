@@ -1,1 +1,1 @@
-from .flags import flags
+from .gendiff_lib import cli, loading, generate_diff
