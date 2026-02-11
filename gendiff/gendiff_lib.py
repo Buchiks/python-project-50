@@ -2,8 +2,9 @@ import argparse
 import json
 import sys
 
+
 def cli():
-    #create parser with flags
+    # create parser with flags
     parser = argparse.ArgumentParser(
         description="Compares two configuration files and shows a difference.")
     parser.add_argument("first_file")
@@ -14,7 +15,8 @@ def cli():
 
 
 def loading(args):
-    #creates object_hook for changind False to false and True to true when loading  
+    # creates object_hook for changing False to false 
+    # and True to true when loading  
     def bool_hook(obj):
         new_obj = {}
         for k, v in obj.items():
@@ -24,7 +26,7 @@ def loading(args):
                 new_obj[k] = v
         return new_obj
     
-    #loading files
+    # loading files
     if args.first_file.endswith("json"):
         try:
             with open(args.first_file, 'r') as f:
