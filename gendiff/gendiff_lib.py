@@ -12,22 +12,22 @@ def cli():
     parser.add_argument("-f", "--format", metavar="FORMAT",
                         help="set format of output")
     return parser.parse_args()
-    
 
+
+# creates object_hook for lowering False to false and True to true
+# in json load 
+def bool_hook(obj):
+    new_obj = {}
+    for k, v in obj.items():
+        if isinstance(v, bool):
+            new_obj[k] = "true" if v else "false"
+        else:
+            new_obj[k] = v
+    return new_obj
+    
 
 # analyzing differences between files
 def generate_diff(path_to_file1, path_to_file2):
-    # creates object_hook for changing False to false 
-    # and True to true when loading  
-    def bool_hook(obj):
-        new_obj = {}
-        for k, v in obj.items():
-            if isinstance(v, bool):
-                new_obj[k] = "true" if v else "false"
-            else:
-                new_obj[k] = v
-        return new_obj
-    
     # loading files
     if path_to_file1.endswith("json"):
         try:
