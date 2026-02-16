@@ -1,1 +1,1 @@
-from .gendiff_lib import cli, generate_diff, loading
+from .gendiff_lib import cli, generate_diff

@@ -12,9 +12,11 @@ def cli():
     parser.add_argument("-f", "--format", metavar="FORMAT",
                         help="set format of output")
     return parser.parse_args()
+    
 
 
-def loading(args):
+# analyzing differences between files
+def generate_diff(path_to_file1, path_to_file2):
     # creates object_hook for changing False to false 
     # and True to true when loading  
     def bool_hook(obj):
@@ -27,27 +29,23 @@ def loading(args):
         return new_obj
     
     # loading files
-    if args.first_file.endswith("json"):
+    if path_to_file1.endswith("json"):
         try:
-            with open(args.first_file, 'r') as f:
+            with open(path_to_file1, 'r') as f:
                 data1 = json.load(f, object_hook=bool_hook)
         except FileNotFoundError:
-            print(f"Файл {args.first_file} не найден")
+            print(f"Файл {path_to_file1} не найден")
             sys.exit(1)
     
-    if args.second_file.endswith("json"):
+    if path_to_file2.endswith("json"):
         try:
-            with open(args.second_file, 'r') as f:
+            with open(path_to_file2, 'r') as f:
                 data2 = json.load(f, object_hook=bool_hook)
         except FileNotFoundError:
-            print(f"Файл {args.second_file} не найден")
+            print(f"Файл {path_to_file2} не найден")
             sys.exit(1)
-    
-    return data1, data2
 
-
-# analyzing differences between files
-def generate_diff(data1, data2):
+    # analyzing differences between files
     def items_diff(key):
         if not data2.get(key):
             return f"  - {key}: {data1[key]}\n"
@@ -56,6 +54,7 @@ def generate_diff(data1, data2):
         if data1[key] == data2[key]:
             return f"    {key}: {data1[key]}\n"
         return f"  - {key}: {data1[key]}\n  + {key}: {data2[key]}\n"
+
     all_keys = set(list(data1.keys()) + list(data2.keys()))
     all_keys = sorted(all_keys)
     result = list(map(lambda key: items_diff(key), all_keys))
