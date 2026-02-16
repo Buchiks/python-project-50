@@ -31,6 +31,6 @@ jobs:
         with:
           args: >
             -Dsonar.projectKey=Buchiks_python-project-50
-            -Dsonar.organization=Buchiks
+            -Dsonar.organization=buchiks
             -Dsonar.python.coverage.reportPaths=coverage.xml  
 
