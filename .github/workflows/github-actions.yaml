@@ -30,7 +30,7 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         with:
           args: >
-            -Dsonar.projectKey=Buchiks_python=project-50
+            -Dsonar.projectKey=Buchiks_python-project-50
             -Dsonar.organization=Buchiks
             -Dsonar.python.coverage.reportPaths=coverage.xml  
 
