@@ -14,21 +14,19 @@ def cli():
     return parser.parse_args()
 
 
-# creates object_hook for lowering False to false and True to true
-# in json load 
-def bool_hook(obj):
-    new_obj = {}
-    for k, v in obj.items():
-        if isinstance(v, bool):
-            new_obj[k] = "true" if v else "false"
-        else:
-            new_obj[k] = v
-    return new_obj
+def loading(path_to_file1, path_to_file2):
+    # creates object_hook for lowering False to false and True to true
+    # in json load
+    def bool_hook(obj):
+        new_obj = {}
+        for k, v in obj.items():
+            if isinstance(v, bool):
+                new_obj[k] = "true" if v else "false"
+            else:
+                new_obj[k] = v
+        return new_obj
     
-
-# analyzing differences between files
-def generate_diff(path_to_file1, path_to_file2):
-    # loading files
+    # loading data
     if path_to_file1.endswith("json"):
         try:
             with open(path_to_file1, 'r') as f:
@@ -44,8 +42,11 @@ def generate_diff(path_to_file1, path_to_file2):
         except FileNotFoundError:
             print(f"Файл {path_to_file2} не найден")
             sys.exit(1)
+    return data1, data2
 
-    # analyzing differences between files
+    
+# analyzing differences between files
+def generate_diff(data1, data2):
     def items_diff(key):
         if not data2.get(key):
             return f"  - {key}: {data1[key]}\n"
