@@ -10,6 +10,27 @@ def read_file(filename):
     return get_test_data_path(filename).read_text()
 
 
+def test_loading():
+    file1 = str(get_test_data_path("file1.json"))
+    file2 = str(get_test_data_path("file2.json"))
+    actual1, actual2 = loading(file1, file2)
+    actual1 = str(actual1)
+    actual2 = str(actual2)
+    expected1 = read_file("file1_after_load.txt")
+    expected2 = read_file("file2_after_load.txt")
+    assert actual1 == expected1
+    assert actual2 == expected2
+    file1 = str(get_test_data_path("file1.yaml"))
+    file2 = str(get_test_data_path("file2.yaml"))
+    actual1, actual2 = loading(file1, file2)
+    actual1 = str(actual1)
+    actual2 = str(actual2)
+    expected1 = read_file("file1_after_load.txt")
+    expected2 = read_file("file2_after_load.txt")
+    assert actual1 == expected1
+    assert actual2 == expected2
+    
+
 def test_generate_diff():
     file1 = str(get_test_data_path("file1.json"))
     file2 = str(get_test_data_path("file2.json"))
